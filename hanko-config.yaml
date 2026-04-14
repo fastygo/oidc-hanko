@@ -1,0 +1,83 @@
+account:
+  allow_deletion: true
+  allow_signup: true
+
+database:
+  user: hanko
+  password: "${HANKO_DB_PASSWORD}"
+  host: hanko-db
+  port: "5432"
+  dialect: postgres
+  database: hanko
+
+email:
+  enabled: true
+  optional: false
+  acquire_on_registration: true
+  acquire_on_login: false
+  require_verification: false
+  limit: 100
+  use_as_login_identifier: true
+  max_length: 100
+  use_for_authentication: true
+  passcode_ttl: 300
+
+email_delivery:
+  enabled: false
+  from_address: noreply@example.com
+  from_name: Example
+
+passkey:
+  enabled: true
+  optional: true
+  acquire_on_registration: conditional
+  acquire_on_login: always
+
+password:
+  enabled: true
+  optional: false
+  acquire_on_registration: always
+  acquire_on_login: always
+  min_length: 8
+
+# SAML is disabled — Hanko is NOT a SAML SP in this architecture.
+# It serves only as the credential backend; the Go IdP handles SAML.
+saml:
+  enabled: false
+
+secrets:
+  keys:
+    - "${HANKO_SESSION_SECRET}"
+
+server:
+  public:
+    address: ":5700"
+    cors:
+      allow_origins:
+        - "https://sp.example.com"
+        - "https://idp.example.com"
+        - "https://client.example.com"
+      allow_credentials: true
+
+service:
+  name: Example Authentication
+
+session:
+  lifespan: 1h
+  cookie:
+    domain: example.com
+    http_only: true
+    same_site: none
+    secure: true
+
+webauthn:
+  relying_party:
+    id: example.com
+    display_name: Example
+    origins:
+      - "https://sp.example.com"
+      - "https://idp.example.com"
+      - "https://client.example.com"
+  timeouts:
+    registration: 60000
+    login: 60000

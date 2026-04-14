@@ -1,0 +1,33 @@
+# Hanko backend + PostgreSQL — self-contained. Copy .env.example to .env.
+services:
+  hanko-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: hanko
+      POSTGRES_USER: hanko
+      POSTGRES_PASSWORD: ${HANKO_DB_PASSWORD}
+    volumes:
+      - hanko_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hanko -d hanko"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  hanko:
+    build: .
+    ports:
+      - "127.0.0.1:5700:5700"
+    env_file:
+      - .env
+    environment:
+      HANKO_DB_PASSWORD: ${HANKO_DB_PASSWORD}
+      HANKO_SESSION_SECRET: ${HANKO_SESSION_SECRET}
+    depends_on:
+      hanko-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  hanko_pgdata:

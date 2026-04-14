@@ -33,7 +33,7 @@ Key sections:
 | `database` | PostgreSQL connection (`host: hanko-db` matches the Compose service name) |
 | `secrets.keys` | Signing material for Hanko JWTs — use `${HANKO_SESSION_SECRET}` with env substitution if supported by your Hanko version |
 | `server.public.address` | Listen address inside the container (`:5700`) |
-| `server.public.cors` | Origins allowed to call the API (website + IdP pages) |
+| `server.public.cors` | Origins allowed to call the API (the IdP login page and other approved browser callers) |
 | `session.cookie` | Cookie domain and flags for cross-site use |
 | `webauthn.relying_party` | Relying Party ID and origins for passkeys |
 | `saml.enabled` | `false` — SAML is not used on the Hanko side in this design |
@@ -71,8 +71,8 @@ Healthcheck on `hanko-db` ensures the app starts after the database is ready.
 
 1. **TLS**: Put a reverse proxy in front (e.g. `https://api.yourdomain` → `http://127.0.0.1:5700`).
 2. **Secrets**: Never commit `.env`; rotate `HANKO_DB_PASSWORD` and `HANKO_SESSION_SECRET` for production.
-3. **Email**: If you require email verification or magic links, configure SMTP and `email_delivery` per Hanko docs (the sample file enables email features but may need extra SMTP settings).
-4. **CORS / WebAuthn**: Update `server.public.cors.allow_origins` and `webauthn.relying_party.origins` to your real HTTPS URLs.
+3. **Email**: For the current MVP, email verification is disabled and SMTP is not required. If you later enable verification or magic links, configure SMTP and `email_delivery`.
+4. **CORS / WebAuthn**: Keep `server.public.cors.allow_origins` and `webauthn.relying_party.origins` aligned with your actual HTTPS IdP origin.
 
 ---
 

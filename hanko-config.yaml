@@ -24,8 +24,8 @@ email:
 
 email_delivery:
   enabled: false
-  from_address: noreply@example.com
-  from_name: Example
+  from_address: noreply@cybeross.ru
+  from_name: CyberOS
 
 # MVP: keep the authentication flow limited to email + password only.
 mfa:
@@ -61,30 +61,26 @@ server:
     address: ":5700"
     cors:
       allow_origins:
-        - "https://sp.example.com"
-        - "https://idp.example.com"
-        - "https://client.example.com"
+        - "https://idp.cybeross.ru"
       allow_credentials: true
 
 service:
-  name: Example Authentication
+  name: CyberOS Authentication
 
 session:
   lifespan: 1h
   cookie:
-    domain: example.com
+    domain: cybeross.ru
     http_only: true
     same_site: none
     secure: true
 
 webauthn:
   relying_party:
-    id: example.com
-    display_name: Example
+    id: cybeross.ru
+    display_name: CyberOS
     origins:
-      - "https://sp.example.com"
-      - "https://idp.example.com"
-      - "https://client.example.com"
+      - "https://idp.cybeross.ru"
   timeouts:
     registration: 60000
     login: 60000

@@ -27,11 +27,18 @@ email_delivery:
   from_address: noreply@example.com
   from_name: Example
 
-passkey:
-  enabled: true
+# MVP: keep the authentication flow limited to email + password only.
+mfa:
+  enabled: false
   optional: true
-  acquire_on_registration: conditional
-  acquire_on_login: always
+  acquire_on_registration: false
+  acquire_on_login: false
+
+passkey:
+  enabled: false
+  optional: true
+  acquire_on_registration: never
+  acquire_on_login: never
 
 password:
   enabled: true

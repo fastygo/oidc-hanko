@@ -29,5 +29,18 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  hanko-migrate:
+    build: .
+    env_file:
+      - .env
+    environment:
+      HANKO_DB_PASSWORD: ${HANKO_DB_PASSWORD}
+      HANKO_SESSION_SECRET: ${HANKO_SESSION_SECRET}
+    command: ["migrate", "up", "--config", "/etc/config/config.yaml"]
+    depends_on:
+      hanko-db:
+        condition: service_healthy
+    restart: "no"
+
 volumes:
   hanko_pgdata:

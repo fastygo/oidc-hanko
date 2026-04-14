@@ -31,14 +31,14 @@ Key sections:
 | Section | Purpose |
 |---------|---------|
 | `database` | PostgreSQL connection (`host: hanko-db` matches the Compose service name) |
-| `secrets.keys` | Signing material for Hanko JWTs — use `${HANKO_SESSION_SECRET}` with env substitution if supported by your Hanko version |
+| `secrets.keys` | Signing material for Hanko JWTs — overridden at runtime via `SECRETS_KEYS` in Docker Compose |
 | `server.public.address` | Listen address inside the container (`:5700`) |
 | `server.public.cors` | Origins allowed to call the API (the IdP login page and other approved browser callers) |
 | `session.cookie` | Cookie domain and flags for cross-site use |
 | `webauthn.relying_party` | Relying Party ID and origins for passkeys |
 | `saml.enabled` | `false` — SAML is not used on the Hanko side in this design |
 
-Placeholders like `${HANKO_DB_PASSWORD}` are intended to match environment variables injected by Docker Compose. If your Hanko build does not expand variables inside YAML, set literal values in a **local, untracked** override file or consult the [Hanko configuration documentation](https://docs.hanko.io).
+Sensitive fields in the tracked YAML use safe placeholder values. In Docker Compose, the runtime container overrides them via environment variables such as `DATABASE_PASSWORD` and `SECRETS_KEYS`, keeping secrets out of git while remaining pull-safe on the server.
 
 ### `.env`
 

@@ -4,7 +4,7 @@ account:
 
 database:
   user: hanko
-  password: "${HANKO_DB_PASSWORD}"
+  password: "change-me-strong-db-password"
   host: hanko-db
   port: "5432"
   dialect: postgres
@@ -54,7 +54,7 @@ saml:
 
 secrets:
   keys:
-    - "${HANKO_SESSION_SECRET}"
+    - "change-me-32-byte-random-secret"
 
 server:
   public:

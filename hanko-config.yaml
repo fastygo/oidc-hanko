@@ -1,6 +1,6 @@
 account:
   allow_deletion: true
-  allow_signup: true
+  allow_signup: false
 
 database:
   user: hanko
